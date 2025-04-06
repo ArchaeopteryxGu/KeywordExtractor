@@ -50,7 +50,6 @@ for file in files:
             if pattern.search(sent):
                 # 使用LTP进行分词和标注
                 output = ltp.pipeline([sent], tasks=["cws", "pos"])
-                
                 if output.cws and len(output.cws[0]) > 0:
                     for idx, word in enumerate(output.cws[0]):
                         if pattern.search(word):
@@ -61,7 +60,7 @@ for file in files:
                                         'sentence': sent,
                                         'keyword': [word],
                                         'keyword_idx': [idx],
-                                        'keyword_pos': word_pos  # 新增的字段，存储关键词的词性
+                                        'keyword_pos': word_pos
                                     })
                             else:
                                 if word_pos == POS:
@@ -69,7 +68,7 @@ for file in files:
                                             'sentence': sent,
                                             'keyword': [word],
                                             'keyword_idx': [idx],
-                                            'keyword_pos': word_pos  # 新增的字段，存储关键词的词性
+                                            'keyword_pos': word_pos
                                         })
               
 selected_sentences = pd.DataFrame(selected_sentences)
@@ -79,7 +78,3 @@ result = selected_sentences
 save_file = input("将文件保存在：")
 
 result.to_excel(save_file,sheet_name='Output',index=False)
-
-#with open(save_file, 'w', encoding='utf-8') as f:
-    #import json
-    #json.dump(result, f, ensure_ascii=False, indent=2)
